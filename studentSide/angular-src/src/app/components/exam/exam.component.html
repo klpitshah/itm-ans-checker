@@ -1,0 +1,94 @@
+<!-- <app-spinner *ngIf="true"></app-spinner> -->
+<div>
+  <div *ngIf="!examSelected">
+    <div *ngFor="let course of examCourses, let i=index">
+      <br />
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>{{course.code}} - <span style="color:chocolate; font-size: medium;">{{course.profusername}}</span></mat-card-title>
+          <mat-card-subtitle>
+            <div *ngIf="times_up[i]==true && submitted_flag[i]==false">
+              <span>Exam is going on</span>
+            </div>
+            <div *ngIf="times_up[i]==true && submitted_flag[i]==true">
+              <span>Exam has ended</span>
+            </div>
+            <div *ngIf="times_up[i]==false">
+              <span>Upcoming Exam</span>
+            </div>
+          </mat-card-subtitle>
+        </mat-card-header>
+        <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"> -->
+        <mat-card-content>
+          <div style="text-align: center;">
+            <span style="font-size: medium;">Description: </span><span style="color: #60a398; font-size: medium;">{{course.description}}</span>
+          </div>
+          <br />
+          <div *ngIf="times_up[i]==false && submitted_flag[i]==false" style="color: #673ab7; font-size: x-large; text-align: center;">
+            <span style="color: #8a7659; font-size: large">Starts in: </span>{{course.due_hour}} : {{course.due_min}} : {{course.due_sec}}
+          </div>
+          <div *ngIf="times_up[i]==true && submitted_flag[i]==false" style= "color: #673ab7; font-size: x-large; text-align: center;">
+            <span style="color: #8a7659; font-size: large">Ends in: </span>{{course.remhh}} : {{course.remmm}} : {{course.remss}}
+          </div>
+          <div *ngIf="submitted_flag[i]==true" style="color: #673ab7; font-size: x-large; text-align: center;">
+            <span style="color: #8a7659; font-size: large">Exam has ended</span>
+          </div>
+          <!-- <div *ngIf="times_up[i]==true && submitted_flag[i]==true" style="color: #673ab7; font-size: x-large; text-align: center;">
+            <span style="color: #8a7659; font-size: large">You have already submitted the exam..</span>
+          </div> -->
+        </mat-card-content>
+        <mat-card-actions style="text-align: center !important;">
+          <button mat-raised-button type="button" mat-button *ngIf="times_up[i]==true && exam_taken==false && submitted_flag[i]==false" (click)="onButtonClick(i)">Take Exam</button>
+          <button mat-raised-button disabled type="button" mat-button *ngIf="!(times_up[i]==true && exam_taken==false && submitted_flag[i]==false)" (click)="onButtonClick(i)">Take Exam</button>
+          <!-- <button type="button" mat-button>Set Reminder</button> -->
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+  
+  <div *ngIf="exam_taken==true">
+  <div style="color: #673ab7; font-size: x-large; text-align: right;">
+    <span style="color: #8a7659; font-size: large">Ends in: </span>{{examCourses[exam_num].remhh}} : {{examCourses[exam_num].remmm}} : {{examCourses[exam_num].remss}}
+  </div>
+  <div>
+    <button *ngIf="pageRefreshed && anyAnsSaved" (click)="loadAnswers()">Load my Answers</button>
+  </div>
+  
+  <form [formGroup]="myForm" (submit)="onAnswerSubmitClick(exam_num)">
+      <div formArrayName="ansSet">
+      <mat-tab-group>
+      <div *ngFor="let temp of myForm.controls.ansSet.controls, let i = index">
+      <!-- <mat-tab label="Question {{i+1}}"> -->
+          <!--{{question.q}}-->
+        <mat-tab label="Question {{i+1}}">
+        <div [formGroupName]="i">
+          <br />
+          <span style="color: #673ab7; font-size: x-large">{{myForm.value.ansSet[i].question}}</span>
+          <br />
+          <div style="text-align: right;">
+            <span style="font-size: medium">Marks: </span><span style="color: #673ab7; font-size: medium">{{myForm.value.ansSet[i].marks}}</span>
+          </div>
+          <br />
+          <!-- <textarea class="form-control rounded-0" attr.id="ans" rows="10"></textarea> -->
+          <mat-form-field style="width: 100% !important">
+            <textarea matInput formControlName="ans"
+                      cdkTextareaAutosize
+                      #autosize="cdkTextareaAutosize"
+                      cdkAutosizeMinRows="5"
+                      cdkAutosizeMaxRows="10"
+                      placeholder="Enter Your Answer Here">
+            </textarea>
+          </mat-form-field>
+        </div>
+        </mat-tab>
+        <!-- </mat-tab> -->
+        </div>
+      </mat-tab-group>
+      </div>
+    <!-- </mat-tab-group> -->
+    <input type="submit" *ngIf="times_up" class="btn btn-primary center" value="Submit my Answers">
+  </form>
+  
+  </div>
+  </div>
+  

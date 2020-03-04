@@ -1,0 +1,71 @@
+<div class="jumbotron text-center">
+    <!-- <img src="http://i66.tinypic.com/11r7i8h.png" alt="daiict" height="100" width="100" class="center"> -->
+    <h2 class="page-header">Batch Registration</h2>
+</div>
+<div class="text-center shadow-lg p-3 mb-5 bg-white rounded w-50 p-3 mx-auto">
+  <form [formGroup]="myForm" (submit)="onRegisterSubmit()">
+      <div>
+        <mat-form-field class="manage-display">
+          <input matInput formControlName="batch" (keypress)="numberOnly($event)" [(ngModel)]="batch" name="batch" id="batch" placeholder="Batch"
+          minlength="2" maxlength="2" required>
+          <span matPrefix>20</span>
+          <mat-error *ngIf="!myForm.controls.batch.valid">
+            Exactly <strong>4</strong> digits
+          </mat-error>
+          </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field class="manage-display">
+          <input matInput formControlName="collegeCode" (keypress)="numberOnly($event)" [(ngModel)]="collegeCode" name="collegeCode" id="collegeCode" placeholder="College Code"
+          minlength="3" maxlength="3" required>
+          <mat-error *ngIf="!myForm.controls.collegeCode.valid">
+            Exactly <strong>3</strong> digits
+          </mat-error>
+          </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field class="manage-display">
+          <input matInput formControlName="streamCode" (keypress)="numberOnly($event)" [(ngModel)]="streamCode" name="streamCode" id="streamCode" placeholder="Stream Code"
+          minlength="2" maxlength="2" required>
+          <mat-error *ngIf="!myForm.controls.streamCode.valid">
+            Exactly <strong>2</strong> digits
+          </mat-error>
+          </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field class="manage-display">
+          <input matInput formControlName="branchCode" (keypress)="numberOnly($event)" [(ngModel)]="branchCode" name="branchCode" id="branchCode" placeholder="Branch Code"
+          minlength="2" maxlength="2" required>
+          <mat-error *ngIf="!myForm.controls.branchCode.valid">
+            Exactly <strong>2</strong> digits
+          </mat-error>
+          </mat-form-field>
+      </div>
+      <div>
+          <mat-form-field class="manage-display noselect">
+            <input matInput formControlName="min_id" (keypress)="numberOnly($event)" [(ngModel)]="min_id" name="min_id" id="min_id" 
+            placeholder="Minimum ID" minlength="3" maxlength="3" required>
+            <span matPrefix>{{this.myForm.value.batch}}{{this.myForm.value.collegeCode}}{{this.myForm.value.streamCode}}{{this.myForm.value.branchCode}}</span>
+            <mat-error *ngIf="!myForm.controls.min_id.valid">
+              Exactly <strong>9</strong> digits
+            </mat-error>
+          </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field class="manage-display noselect">
+          <input matInput formControlName="max_id" (keypress)="numberOnly($event)" [(ngModel)]="max_id" name="max_id" id="max_id" 
+          placeholder="Maximum ID" minlength="3" maxlength="3" required>
+          <span matPrefix>{{this.myForm.value.batch}}{{this.myForm.value.collegeCode}}{{this.myForm.value.streamCode}}{{this.myForm.value.branchCode}}</span>
+          <mat-error *ngIf="!myForm.controls.max_id.valid">
+            Exactly <strong>9</strong> digits
+          </mat-error>
+          </mat-form-field>
+      </div>
+      
+    <div class="text-center">
+    <input disabled *ngIf="!myForm.controls.batch.valid || !myForm.controls.min_id.valid || !myForm.controls.max_id.valid || !myForm.controls.collegeCode.valid || !myForm.controls.streamCode.valid || !myForm.controls.branchCode.valid" type="submit" class="btn btn-primary" value="Generate Passwords and Send">
+    <input *ngIf="myForm.controls.batch.valid && myForm.controls.branchCode.valid && myForm.controls.collegeCode.valid && myForm.controls.streamCode.valid && myForm.controls.min_id.valid && myForm.controls.max_id.valid" type="submit" class="btn btn-primary" value="Generate Passwords and Send">
+  </div>
+  </form>
+</div>

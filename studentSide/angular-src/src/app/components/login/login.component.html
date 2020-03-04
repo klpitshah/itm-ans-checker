@@ -1,0 +1,37 @@
+  <div class="jumbotron text-center">
+    <!-- <mat-toolbar  color="primary">Login</mat-toolbar> -->
+    <h2 class="page-header">Login</h2>
+  </div>
+    
+      <div class="text-center shadow-lg p-3 mb-5 bg-white rounded w-50 p-3 mx-auto">
+      <form [formGroup]="myForm" (submit) = "onLoginSubmit()">
+        <br />
+        <div>
+          <mat-form-field class="manage-display">
+          <input matInput formControlName="username" [(ngModel)]="username" name="username" placeholder="Username" required>
+          <mat-error *ngIf="!myForm.controls.username.valid">
+          </mat-error>
+          </mat-form-field>
+          <!--<input type="text" class="form-control" [(ngModel)]="username" name="username">-->
+        </div>
+        <div>
+            <mat-form-field class="manage-display">
+            <input matInput type="password" formControlName="password" [(ngModel)]="password" name="password" placeholder="Password" required>
+            <mat-error *ngIf="!myForm.controls.password.valid">
+            </mat-error>
+            </mat-form-field>
+          <!--<input type="password" class="form-control" [(ngModel)]="password" name="password">-->
+        </div>
+        <br />
+        <div class="text-center">
+        <input disabled *ngIf="!myForm.controls.username.valid || !myForm.controls.password.valid" type="submit" class="btn btn-primary" value="Login">
+        <input *ngIf="myForm.controls.username.valid && myForm.controls.password.valid" type="submit" class="btn btn-primary" value="Login">
+        </div>
+      </form>
+      <br />
+        <div class="text-center">
+          <!-- <button mat-button disabled *ngIf="!myForm.controls.username.valid" color="primary" type="button" id="forgetPassword">Forgot Password</button> -->
+          <button mat-button color="primary" type="button" [routerLink] = "['/forgetpass']" id="forgetPassword">Forgot Password</button>
+          <!--<button mat-raised-button type="button" (click)="changePassword()" id="changePassword">Change Password</button>-->
+        </div>
+      </div>
